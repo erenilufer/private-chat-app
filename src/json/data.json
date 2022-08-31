@@ -1,0 +1,254 @@
+{
+  "id": 1,
+  "name": "Eren Nilüfer",
+
+  "chats": [
+    {
+      "id": 2,
+      "name": "Jane Doe",
+      "image": "../../assets/2.jpg",
+      "messages": [
+        {
+          "status": "sent",
+          "content": "Hey Jane",
+          "time": "17.23"
+        },
+        {
+          "status": "received",
+          "content": "Hey Eren",
+          "time": "17.24"
+        },
+        {
+          "status": "sent",
+          "content": "Naber",
+          "time": "17.25"
+        },
+        {
+          "status": "received",
+          "content": "İyidir, senden?",
+          "time": "17.26"
+        }
+      ],
+      "lastSeen": "16:24"
+    },
+    {
+      "id": 3,
+      "name": "Jane Doe",
+      "image": "../../assets/2.jpg",
+      "messages": [
+        {
+          "status": "sent",
+          "content": "Hey Jane",
+          "time": "17.23"
+        },
+        {
+          "status": "received",
+          "content": "Hey Eren",
+          "time": "17.24"
+        },
+        {
+          "status": "sent",
+          "content": "Naber",
+          "time": "17.25"
+        },
+        {
+          "status": "received",
+          "content": "İyidir, senden?",
+          "time": "17.26"
+        }
+      ],
+      "lastSeen": "16:24"
+    },
+    {
+      "id": 4,
+      "name": "Jane Doe",
+      "image": "../../assets/2.jpg",
+      "messages": [
+        {
+          "status": "sent",
+          "content": "Hey Jane",
+          "time": "17.23"
+        },
+        {
+          "status": "received",
+          "content": "Hey Eren",
+          "time": "17.24"
+        },
+        {
+          "status": "sent",
+          "content": "Naber",
+          "time": "17.25"
+        },
+        {
+          "status": "received",
+          "content": "İyidir, senden?",
+          "time": "17.26"
+        }
+      ],
+      "lastSeen": "16:24"
+    },
+    {
+      "id":5,
+      "name": "Jane Doe",
+      "image": "../../assets/2.jpg",
+      "messages": [
+        {
+          "status": "sent",
+          "content": "Hey Jane",
+          "time": "17.23"
+        },
+        {
+          "status": "received",
+          "content": "Hey Eren",
+          "time": "17.24"
+        },
+        {
+          "status": "sent",
+          "content": "Naber",
+          "time": "17.25"
+        },
+        {
+          "status": "received",
+          "content": "İyidir, senden?",
+          "time": "17.26"
+        }
+      ],
+      "lastSeen": "16:24"
+    }, {
+      "id": 6,
+      "name": "Jane Doe",
+      "image": "../../assets/2.jpg",
+      "messages": [
+        {
+          "status": "sent",
+          "content": "Hey Jane",
+          "time": "17.23"
+        },
+        {
+          "status": "received",
+          "content": "Hey Eren",
+          "time": "17.24"
+        },
+        {
+          "status": "sent",
+          "content": "Naber",
+          "time": "17.25"
+        },
+        {
+          "status": "received",
+          "content": "İyidir, senden?",
+          "time": "17.26"
+        }
+      ],
+      "lastSeen": "16:24"
+    }, {
+      "id": 7,
+      "name": "Jane Doe",
+      "image": "../../assets/2.jpg",
+      "messages": [
+        {
+          "status": "sent",
+          "content": "Hey Jane",
+          "time": "17.23"
+        },
+        {
+          "status": "received",
+          "content": "Hey Eren",
+          "time": "17.24"
+        },
+        {
+          "status": "sent",
+          "content": "Naber",
+          "time": "17.25"
+        },
+        {
+          "status": "received",
+          "content": "İyidir, senden?",
+          "time": "17.26"
+        }
+      ],
+      "lastSeen": "16:24"
+    }, {
+      "id": 8,
+      "name": "Jane Doe",
+      "image": "../../assets/2.jpg",
+      "messages": [
+        {
+          "status": "sent",
+          "content": "Hey Jane",
+          "time": "17.23"
+        },
+        {
+          "status": "received",
+          "content": "Hey Eren",
+          "time": "17.24"
+        },
+        {
+          "status": "sent",
+          "content": "Naber",
+          "time": "17.25"
+        },
+        {
+          "status": "received",
+          "content": "İyidir, senden?",
+          "time": "17.26"
+        }
+      ],
+      "lastSeen": "16:24"
+    }, {
+      "id": 9,
+      "name": "Jane Doe",
+      "image": "../../assets/2.jpg",
+      "messages": [
+        {
+          "status": "sent",
+          "content": "Hey Jane",
+          "time": "17.23"
+        },
+        {
+          "status": "received",
+          "content": "Hey Eren",
+          "time": "17.24"
+        },
+        {
+          "status": "sent",
+          "content": "Naber",
+          "time": "17.25"
+        },
+        {
+          "status": "received",
+          "content": "İyidir, senden?",
+          "time": "17.26"
+        }
+      ],
+      "lastSeen": "16:24"
+    }, {
+      "id": 10,
+      "name": "Jane Doe",
+      "image": "../../assets/2.jpg",
+      "messages": [
+        {
+          "status": "sent",
+          "content": "Hey Jane",
+          "time": "17.23"
+        },
+        {
+          "status": "received",
+          "content": "Hey Eren",
+          "time": "17.24"
+        },
+        {
+          "status": "sent",
+          "content": "Naber",
+          "time": "17.25"
+        },
+        {
+          "status": "received",
+          "content": "İyidir, senden?",
+          "time": "17.26"
+        }
+      ],
+      "lastSeen": "16:24"
+    }
+  ]
+}
