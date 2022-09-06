@@ -1,25 +1,17 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { View, Text, SafeAreaView, Pressable } from "react-native";
-import { getDatabase, ref, onValue, set } from "firebase/database";
+import { getDatabase, ref, set } from "firebase/database";
 import { TextInput } from "react-native-gesture-handler";
 import { FontAwesome5 } from "@expo/vector-icons";
 
 interface Props {}
 
-const Calls = (props: Props) => {
-  function storeHighScore(userId, score) {
-    const db = getDatabase();
-    const reference = ref(db, "users/" + userId);
-    set(reference, {
-      highscore: score,
-    });
-  }
-
+const Contacts = (props: Props) => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff", paddingTop: 30 }}>
       <View style={{ marginHorizontal: 10, marginBottom: 10 }}>
         <Text style={{ fontSize: 36, fontWeight: "bold", marginBottom: 10 }}>
-          Calls
+          Contacts
         </Text>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <FontAwesome5
@@ -45,4 +37,4 @@ const Calls = (props: Props) => {
   );
 };
 
-export default Calls;
+export default Contacts;

@@ -1,13 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
+import { User as FirebaseUser } from "firebase/auth";
 
-interface UserModel {
-  id: string;
-  username: string;
-  phoneNumber: string;
-}
 export interface AuthState {
-  user: UserModel | null;
+  user: FirebaseUser | null;
   loadingState: "idle" | "loading" | "success" | "error";
   error: boolean;
 }
@@ -29,6 +25,6 @@ export const authState = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const {setUser} = authState.actions;
+export const { setUser } = authState.actions;
 
 export default authState.reducer;

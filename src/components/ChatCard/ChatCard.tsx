@@ -1,6 +1,8 @@
 import { MaterialIcons } from "@expo/vector-icons";
-import React, { useState } from "react";
+import { collection, getDocs, query } from "firebase/firestore";
+import { useEffect, useState } from "react";
 import { View, Text, Image, TouchableOpacity, Dimensions } from "react-native";
+import { app, firestore } from "../../firebase/config";
 
 interface Props {
   navigation: any;
@@ -8,9 +10,7 @@ interface Props {
 }
 
 const ChatCard = (props: Props) => {
-  const [selectedChats, setSelectedChats] = useState([]);
-  console.log(selectedChats);
-
+  const { navigation, item } = props;
   return (
     <TouchableOpacity
       key={props.item.item.id}
@@ -18,19 +18,10 @@ const ChatCard = (props: Props) => {
         paddingVertical: 15,
         paddingHorizontal: 10,
         borderBottomWidth: 0.2,
+        borderBottomColor: "grey",
         width: Dimensions.get("screen").width,
       }}
-      onLongPress={() => {
-        setSelectedChats([...selectedChats, props.item.item]);
-      }}
-      onPress={() =>
-        props.navigation.navigate("Chat Details", {
-          user: {
-            name: props.item.item.name,
-            messages: props.item.item.messages,
-          },
-        })
-      }
+      onPress={() => navigation.navigate("Chat Details", { user: item })}
     >
       <View
         style={{
@@ -57,14 +48,11 @@ const ChatCard = (props: Props) => {
                   marginBottom: 5,
                 }}
               >
-                {props.item.item.name}
+                {item.item.name}
               </Text>
             </View>
             <Text style={{ fontWeight: "500", color: "#64748b" }}>
-              {
-                props.item.item.messages[props.item.item.messages.length - 1]
-                  .content
-              }
+              Start a Conversation
             </Text>
           </View>
         </View>
