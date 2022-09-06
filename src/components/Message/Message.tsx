@@ -3,14 +3,10 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useSelector } from "react-redux";
+import { MessageState } from "../../models/MessageModel";
 import { RootState } from "../../redux/store";
 
-export interface MessageState {
-  content: string;
-  receiverID: string;
-  senderID: string;
-  time: Date;
-}
+
 
 interface Props {
   item: MessageState;

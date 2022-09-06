@@ -4,6 +4,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
   StyleSheet,
+  Image,
 } from "react-native";
 import { useEffect, useRef, useState } from "react";
 import { EvilIcons } from "@expo/vector-icons";
@@ -12,16 +13,12 @@ import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import "react-native-get-random-values";
 import { useSelector } from "react-redux";
-import {
-  getDatabase,
-  onValue,
-  ref,
-  serverTimestamp,
-  set,
-} from "firebase/database";
+import { getDatabase, onValue, ref } from "firebase/database";
 import { RootState } from "../redux/store";
 import { NavigationState } from "@react-navigation/native";
 import { sendMessage } from "../firebase/helpers";
+import Message from "../components/Message/Message";
+import { MessageState } from "../models/MessageModel";
 
 type Props = {
   navigation: NavigationState;
@@ -29,8 +26,8 @@ type Props = {
 };
 
 const ChatDetails = (props: Props) => {
-  const [messages, setMessages] = useState(null);
-  const [text, setText] = useState("");
+  const [messages, setMessages] = useState<MessageState[]>([]);
+  const [text, setText] = useState<string>("");
 
   const user = useSelector((state: RootState) => state.auth.user);
 
@@ -56,7 +53,18 @@ const ChatDetails = (props: Props) => {
 
   navigation.setOptions({
     headerShown: true,
-    title: name,
+    headerTitle: () => (
+      <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <Image
+          style={{ width: 30, height: 30, marginRight: 10, borderRadius: 30 }}
+          source={{
+            uri: "https://www.dergicilikokulu.com/wp-content/plugins/ultimate-member/assets/img/default_avatar.jpg",
+          }}
+        />
+        <Text style={{ fontWeight: "bold" }}>{name}</Text>
+      </View>
+    ),
+
     headerLeft: () => (
       <EvilIcons
         onPress={() => navigation.goBack()}
@@ -67,6 +75,7 @@ const ChatDetails = (props: Props) => {
     ),
     headerBackTitleVisible: false,
   });
+
   useEffect(() => {
     const db = getDatabase();
     const chatRef = ref(db, "chats/" + _setChatID());
@@ -111,51 +120,7 @@ const ChatDetails = (props: Props) => {
         {/*  */}
         {messages &&
           messages.map((item, index) => {
-            return (
-              <TouchableOpacity
-                key={index}
-                style={
-                  item.senderID === user.uid
-                    ? styles.sentStyle
-                    : styles.receivedStyle
-                }
-              >
-                <Text style={{ marginRight: 5, maxWidth: "60%" }}>
-                  {item.content}
-                </Text>
-                <View style={{ flexDirection: "row" }}>
-                  <Text
-                    style={{
-                      alignSelf: "flex-end",
-                      fontSize: 10,
-                      fontWeight: "500",
-                      color: "#64748b",
-                      marginRight: 3,
-                    }}
-                  >
-                    {new Date(item.time).getHours() < 10
-                      ? `0${new Date(item.time).getHours()}`
-                      : new Date(item.time).getHours()}
-                    :
-                    {new Date(item.time).getMinutes() < 10
-                      ? `0${new Date(item.time).getMinutes()}`
-                      : new Date(item.time).getMinutes()}
-                  </Text>
-                  {/*   <FontAwesome5
-                style={{ alignSelf: "flex-end" }}
-                name="check-double"
-                size={10}
-                color="#06b6d4"
-              /> */}
-                  <FontAwesome5
-                    style={{ alignSelf: "flex-end" }}
-                    name="check"
-                    size={10}
-                    color="#94a3b8"
-                  />
-                </View>
-              </TouchableOpacity>
-            );
+            return <Message item={item} index={index} />;
           })}
       </ScrollView>
       <View
