@@ -5,7 +5,7 @@ import {
   signOut,
 } from "firebase/auth";
 import { getDatabase, ref, serverTimestamp, set } from "firebase/database";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, Timestamp } from "firebase/firestore";
 import { useDispatch } from "react-redux";
 import { setUser } from "../redux/slices/authSlice";
 import { AppDispatch } from "../redux/store";
@@ -18,7 +18,7 @@ export const registerUser = async (
 ) => {
   await createUserWithEmailAndPassword(auth, email, password);
   console.log(auth.currentUser);
-  
+
   await setDoc(doc(firestore, "users", auth.currentUser.uid), {
     id: auth.currentUser?.uid,
     email: auth.currentUser?.email,

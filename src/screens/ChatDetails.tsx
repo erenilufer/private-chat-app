@@ -85,7 +85,9 @@ const ChatDetails = (props: Props) => {
         Object.keys(data).map(function (key) {
           return data[key];
         });
-      setMessages(array);
+      var sorted = array?.sort((a, b) => a.time - b.time);
+
+      setMessages(sorted);
     });
   }, []);
 
