@@ -5,12 +5,12 @@ import {
   TouchableOpacity,
   StyleSheet,
   Image,
+  ActivityIndicator,
 } from "react-native";
 import { useEffect, useRef, useState } from "react";
 import { EvilIcons } from "@expo/vector-icons";
 import { ScrollView, TextInput } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
-import { FontAwesome5 } from "@expo/vector-icons";
 import "react-native-get-random-values";
 import { useSelector } from "react-redux";
 import { getDatabase, onValue, ref } from "firebase/database";
@@ -26,7 +26,7 @@ type Props = {
 };
 
 const ChatDetails = (props: Props) => {
-  const [messages, setMessages] = useState<MessageState[]>([]);
+  const [messages, setMessages] = useState<MessageState[] | null>(null);
   const [text, setText] = useState<string>("");
 
   const user = useSelector((state: RootState) => state.auth.user);
@@ -57,11 +57,9 @@ const ChatDetails = (props: Props) => {
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <Image
           style={{ width: 30, height: 30, marginRight: 10, borderRadius: 30 }}
-          source={{
-            uri: "https://www.dergicilikokulu.com/wp-content/plugins/ultimate-member/assets/img/default_avatar.jpg",
-          }}
+          source={require("../assets/profile-photo.png")}
         />
-        <Text style={{ fontWeight: "bold" }}>{name}</Text>
+        <Text style={{ fontWeight: "bold", fontSize: 16 }}>{name}</Text>
       </View>
     ),
 
@@ -87,7 +85,6 @@ const ChatDetails = (props: Props) => {
         Object.keys(data).map(function (key) {
           return data[key];
         });
-
       setMessages(array);
     });
   }, []);
@@ -104,24 +101,13 @@ const ChatDetails = (props: Props) => {
         ref={scrollViewRef}
         onContentSizeChange={() => scrollToEnd()}
       >
-        <TouchableOpacity
-          activeOpacity={0.3}
-          style={{
-            padding: 10,
-            backgroundColor: "#93c5fd",
-            alignSelf: "center",
-            width: "45%",
-            borderRadius: 15,
-            marginVertical: 10,
-          }}
-        >
-          <Text style={{ color: "#000", textAlign: "center" }}>Today</Text>
-        </TouchableOpacity>
-        {/*  */}
-        {messages &&
+        {messages ? (
           messages.map((item, index) => {
             return <Message item={item} index={index} />;
-          })}
+          })
+        ) : (
+          <ActivityIndicator color={"white"} />
+        )}
       </ScrollView>
       <View
         style={{
@@ -145,21 +131,11 @@ const ChatDetails = (props: Props) => {
         />
 
         <TouchableOpacity
+          disabled={text === ""}
           onPress={() => handleSend()}
-          style={{
-            width: 50,
-            height: 50,
-            borderRadius: 30,
-            backgroundColor: "#028376",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
+          style={text !== "" ? styles.buttonActive : styles.buttonInactive}
         >
-          {text === "" ? (
-            <FontAwesome5 name="microphone" size={24} color="#fff" />
-          ) : (
-            <Ionicons name="send" size={24} color="#fff" />
-          )}
+          <Ionicons name="send" size={24} color="#fff" />
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -168,42 +144,20 @@ const ChatDetails = (props: Props) => {
 
 export default ChatDetails;
 const styles = StyleSheet.create({
-  sentStyle: {
-    flexDirection: "row",
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-    backgroundColor: "#DBF8C6",
-    marginVertical: 5,
-    alignSelf: "flex-end",
-    borderRadius: 10,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 5,
-    },
-    shadowOpacity: 0.36,
-    shadowRadius: 6.68,
-
-    elevation: 11,
+  buttonActive: {
+    width: 50,
+    height: 50,
+    borderRadius: 30,
+    backgroundColor: "#028376",
+    justifyContent: "center",
+    alignItems: "center",
   },
-  receivedStyle: {
-    alignSelf: "flex-start",
-    backgroundColor: "#ffffff",
-    flexDirection: "row",
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-
-    marginVertical: 5,
-
-    borderRadius: 10,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 5,
-    },
-    shadowOpacity: 0.36,
-    shadowRadius: 6.68,
-
-    elevation: 11,
+  buttonInactive: {
+    width: 50,
+    height: 50,
+    borderRadius: 30,
+    backgroundColor: "#79918c",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

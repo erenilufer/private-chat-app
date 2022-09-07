@@ -1,8 +1,5 @@
 import { MaterialIcons } from "@expo/vector-icons";
-import { collection, getDocs, query } from "firebase/firestore";
-import { useEffect, useState } from "react";
 import { View, Text, Image, TouchableOpacity, Dimensions } from "react-native";
-import { app, firestore } from "../../firebase/config";
 
 interface Props {
   navigation: any;
@@ -33,7 +30,7 @@ const ChatCard = (props: Props) => {
         <View style={{ flexDirection: "row" }}>
           <Image
             style={{ width: 60, height: 60, borderRadius: 30 }}
-            source={require("../../assets/2.jpg")}
+            source={require("../../assets/profile-photo.png")}
           />
           <View style={{ marginLeft: 10 }}>
             <View
