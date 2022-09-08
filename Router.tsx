@@ -11,6 +11,7 @@ import { RootState } from "./src/redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "./src/redux/slices/authSlice";
 import Register from "./src/screens/Register";
+import Profile from "./src/screens/Profile";
 
 const Stack = createStackNavigator();
 
@@ -65,11 +66,18 @@ const StackNavigation = () => {
               options={{
                 headerShown: false,
               }}
-              name="Main"
+              name="ChatList"
               component={ChatList}
             />
 
             <Stack.Screen name="Chat Details" component={ChatDetails} />
+            <Stack.Screen
+              options={{
+                headerShown: false,
+              }}
+              name="Profile"
+              component={Profile}
+            />
           </>
         )}
       </Stack.Navigator>
