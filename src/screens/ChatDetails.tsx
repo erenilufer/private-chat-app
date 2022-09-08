@@ -54,13 +54,16 @@ const ChatDetails = (props: Props) => {
   navigation.setOptions({
     headerShown: true,
     headerTitle: () => (
-      <View style={{ flexDirection: "row", alignItems: "center" }}>
+      <TouchableOpacity
+        onPress={() => {}}
+        style={{ flexDirection: "row", alignItems: "center" }}
+      >
         <Image
           style={{ width: 30, height: 30, marginRight: 10, borderRadius: 30 }}
           source={require("../assets/profile-photo.png")}
         />
         <Text style={{ fontWeight: "bold", fontSize: 16 }}>{name}</Text>
-      </View>
+      </TouchableOpacity>
     ),
 
     headerLeft: () => (
@@ -105,7 +108,7 @@ const ChatDetails = (props: Props) => {
       >
         {messages ? (
           messages.map((item, index) => {
-            return <Message item={item} index={index} />;
+            return <Message item={item} key={index} />;
           })
         ) : (
           <ActivityIndicator color={"white"} />

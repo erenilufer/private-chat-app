@@ -8,6 +8,8 @@ import {
   FlatList,
   StyleSheet,
   ActivityIndicator,
+  TouchableOpacity,
+  Image,
 } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import { FontAwesome5 } from "@expo/vector-icons";
@@ -48,16 +50,6 @@ const ChatList = (props: Props) => {
       )
     );
   }, [search]);
-  const logoutUser = () => {
-    const auth = getAuth();
-    signOut(auth)
-      .then(() => {
-        dispatch(setUser(null));
-      })
-      .catch((error) => {
-        dispatch(setError(error));
-      });
-  };
 
   const getData = async () => {
     const q = query(collection(firestore, "users"));
@@ -93,9 +85,24 @@ const ChatList = (props: Props) => {
           <Text style={{ fontSize: 36, fontWeight: "bold", marginBottom: 10 }}>
             Chats
           </Text>
-          <Pressable style={styles.logoutButton} onPress={() => logoutUser()}>
-            <Text style={{ color: "#fff", fontWeight: "bold" }}>Logout</Text>
-          </Pressable>
+          <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+            <Image
+              style={{
+                width: 50,
+                height: 50,
+                marginRight: 10,
+                borderRadius: 100,
+                borderWidth: 2,
+                borderColor: "#64748b",
+                alignSelf: "center",
+              }}
+              source={
+                user?.photoURL
+                  ? { uri: user?.photoURL }
+                  : require("../assets/profile-photo.png")
+              }
+            />
+          </TouchableOpacity>
         </View>
         <View style={styles.inputContainer}>
           <FontAwesome5
@@ -165,6 +172,7 @@ const styles = StyleSheet.create({
 
   headerText: { color: "#0284c7" },
   logoutButton: {
+    marginLeft: 10,
     padding: 15,
     backgroundColor: "#0369a1",
     borderRadius: 10,

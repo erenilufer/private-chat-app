@@ -6,20 +6,16 @@ import { useSelector } from "react-redux";
 import { MessageState } from "../../models/MessageModel";
 import { RootState } from "../../redux/store";
 
-
-
 interface Props {
   item: MessageState;
-  index: number;
 }
 
 const Message = (props: Props) => {
   const user = useSelector((state: RootState) => state.auth.user);
-  const { item, index } = props;
+  const { item } = props;
 
   return (
     <TouchableOpacity
-      key={index}
       style={
         item.senderID === user?.uid ? styles.sentStyle : styles.receivedStyle
       }

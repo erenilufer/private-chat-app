@@ -3,6 +3,7 @@ import {
   getAuth,
   signInWithEmailAndPassword,
   signOut,
+  updateProfile,
 } from "firebase/auth";
 import { getDatabase, ref, serverTimestamp, set } from "firebase/database";
 import { doc, setDoc, Timestamp } from "firebase/firestore";
@@ -17,7 +18,7 @@ export const registerUser = async (
   name: string
 ) => {
   await createUserWithEmailAndPassword(auth, email, password);
-  console.log(auth.currentUser);
+  await updateProfile(auth.currentUser, { displayName: name });
 
   await setDoc(doc(firestore, "users", auth.currentUser.uid), {
     id: auth.currentUser?.uid,
