@@ -5,4 +5,4 @@
  - React Native
  - Redux
  - Typescript
- - Firebase Firestore and Real Time Database
+ - Firebase
