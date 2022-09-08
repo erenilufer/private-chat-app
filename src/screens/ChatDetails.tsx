@@ -32,7 +32,9 @@ const ChatDetails = (props: Props) => {
   const user = useSelector((state: RootState) => state.auth.user);
 
   const { navigation, route } = props;
-  const { id, name } = route.params.user.item;
+  const { id, name, photoURL } = route.params.user.item;
+  console.log(photoURL);
+  console.log(route.params.user);
 
   const scrollViewRef = useRef<any>();
 
@@ -59,8 +61,13 @@ const ChatDetails = (props: Props) => {
         style={{ flexDirection: "row", alignItems: "center" }}
       >
         <Image
+          defaultSource={require("../assets/profile-photo.png")}
           style={{ width: 30, height: 30, marginRight: 10, borderRadius: 30 }}
-          source={require("../assets/profile-photo.png")}
+          source={
+            photoURL
+              ? { uri: photoURL }
+              : require("../assets/profile-photo.png")
+          }
         />
         <Text style={{ fontWeight: "bold", fontSize: 16 }}>{name}</Text>
       </TouchableOpacity>

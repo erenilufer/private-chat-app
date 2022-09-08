@@ -36,7 +36,7 @@ const ChatList = (props: Props) => {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [data, setData] = useState<UserState[] | null>(null);
   const [filteredData, setFilteredData] = useState<UserState[] | null>(null);
-
+  const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
   console.log(data);
 
@@ -85,8 +85,23 @@ const ChatList = (props: Props) => {
           <Text style={{ fontSize: 36, fontWeight: "bold", marginBottom: 10 }}>
             Chats
           </Text>
-          <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+          <TouchableOpacity
+            style={{
+              position: "relative",
+              justifyContent:"center"
+            }}
+            onPress={() => navigation.navigate("Profile")}
+          >
+            {loading && (
+              <ActivityIndicator
+              style={{ position: "absolute", left: 15.5 }}
+              size="small"
+                color="#7e7e7e"
+              />
+            )}
             <Image
+              onLoadStart={() => setLoading(true)}
+              onLoadEnd={() => setLoading(false)}
               style={{
                 width: 50,
                 height: 50,
@@ -162,7 +177,18 @@ const ChatList = (props: Props) => {
 export default ChatList;
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#fff", paddingTop: 30 },
-
+  containerr: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    opacity: 0.2,
+    backgroundColor: "black",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 20,
+  },
   headerContainer: {
     flexDirection: "row",
     justifyContent: "space-between",

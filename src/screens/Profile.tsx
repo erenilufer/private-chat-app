@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
+import { View, Text, Image, StyleSheet, ActivityIndicator } from "react-native";
 import {
   TouchableOpacity,
   TouchableWithoutFeedback,
@@ -9,28 +9,40 @@ import { RootState } from "../redux/store";
 import { Ionicons } from "@expo/vector-icons";
 import { NavigationState } from "@react-navigation/native";
 import * as ImagePicker from "expo-image-picker";
-import { app, auth } from "../firebase/config";
+import { app, auth, firestore } from "../firebase/config";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { async } from "@firebase/util";
 import { getAuth, signOut, updateProfile } from "firebase/auth";
 import { setError, setUser } from "../redux/slices/authSlice";
+import { doc, updateDoc } from "firebase/firestore";
 
 interface Props {
   navigation: NavigationState;
 }
 
 const Profile = (props: Props) => {
+  const user = useSelector((state: RootState) => state.auth.user);
+  const [loading, setLoading] = useState(false);
+
+  const [imageUrl, setImageUrl] = useState(user?.photoURL);
+  const [val, setVal] = useState(true);
   const dispatch = useDispatch();
   useEffect(() => {
     const getImage = async () => {
       const storage = getStorage();
       const storageRef = ref(storage, user?.uid);
       await getDownloadURL(storageRef).then((res) => {
+        setImageUrl(res);
         updateProfile(auth.currentUser, { photoURL: res });
+      });
+      const washingtonRef = doc(firestore, "users", user.uid);
+
+      await updateDoc(washingtonRef, {
+        photoURL: imageUrl,
       });
     };
     getImage();
-  });
+  }, [val]);
   const logoutUser = () => {
     const auth = getAuth();
     signOut(auth)
@@ -41,8 +53,12 @@ const Profile = (props: Props) => {
         dispatch(setError(error));
       });
   };
+
+  /*  useEffect(() => {
+    setImageUrl(user?.photoURL);
+  }, [user?.photoURL]); */
+
   const { navigation } = props;
-  const user = useSelector((state: RootState) => state.auth.user);
   console.log(user);
   const handleImagePicker = async () => {
     const result = await ImagePicker.launchImageLibraryAsync();
@@ -65,7 +81,10 @@ const Profile = (props: Props) => {
     const storage = getStorage();
     const storageRef = ref(storage, user?.uid);
     uploadBytes(storageRef, blob).then((snapshot) => {
-      console.log("Uploaded a blob or file!");
+      console.log(snapshot);
+
+      setImageUrl(user?.photoURL);
+      setVal(!val);
     });
   };
   return (
@@ -78,7 +97,7 @@ const Profile = (props: Props) => {
           paddingHorizontal: 20,
           flexDirection: "row",
           justifyContent: "space-between",
-          alignItems:"flex-start"
+          alignItems: "flex-start",
         }}
       >
         <TouchableOpacity
@@ -113,7 +132,15 @@ const Profile = (props: Props) => {
             }}
             onPress={() => handleImagePicker()}
           >
+             {loading && (
+              <ActivityIndicator
+              style={{ position: "absolute", left: 15.5 }}
+              size="small"
+                color="#7e7e7e"
+              />
+            )}
             <Image
+
               style={{
                 width: 200,
                 height: 200,
@@ -121,7 +148,7 @@ const Profile = (props: Props) => {
               }}
               source={
                 user?.photoURL
-                  ? { uri: user.photoURL }
+                  ? { uri: imageUrl }
                   : require("../assets/profile-photo.png")
               }
             />

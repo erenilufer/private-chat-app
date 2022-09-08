@@ -1,5 +1,18 @@
 import { MaterialIcons } from "@expo/vector-icons";
-import { View, Text, Image, TouchableOpacity, Dimensions } from "react-native";
+import { getAuth, updateProfile } from "firebase/auth";
+import { doc, updateDoc } from "firebase/firestore";
+import { getDownloadURL, getStorage, ref } from "firebase/storage";
+import { useEffect, useState } from "react";
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  Dimensions,
+  ActivityIndicator,
+} from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import { firestore } from "../../firebase/config";
 
 interface Props {
   navigation: any;
@@ -8,6 +21,29 @@ interface Props {
 
 const ChatCard = (props: Props) => {
   const { navigation, item } = props;
+  const user = useSelector((state: RootState) => state.auth.user);
+  console.log(item);
+
+  const [imageUrl, setImageUrl] = useState();
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const getImage = async () => {
+      const storage = getStorage();
+      const storageRef = ref(storage, item.item.id);
+      await getDownloadURL(storageRef).then((res) => {
+        setImageUrl(res);
+      });
+    };
+    getImage();
+  }, [imageUrl]);
+
+  /*  useEffect(() => {
+    setImageUrl(user?.photoURL);
+  }, [user?.photoURL]); */
+
+  console.log(user);
+
   return (
     <TouchableOpacity
       key={props.item.item.id}
@@ -28,10 +64,39 @@ const ChatCard = (props: Props) => {
         }}
       >
         <View style={{ flexDirection: "row" }}>
-          <Image
-            style={{ width: 60, height: 60, borderRadius: 30 }}
-            source={require("../../assets/profile-photo.png")}
-          />
+          <View
+            style={{
+              alignItems: "center",
+              justifyContent: "center",
+              borderColor: "#64748b",
+            }}
+          >
+            {loading && (
+              <ActivityIndicator
+                style={{ position: "absolute", left: 15.5 }}
+                size="small"
+                color="#7e7e7e"
+              />
+            )}
+            <Image
+              onLoadStart={() => setLoading(true)}
+              onLoadEnd={() => setLoading(false)}
+              style={{
+                width: 50,
+                height: 50,
+                marginRight: 10,
+                borderRadius: 100,
+                borderWidth: 2,
+                borderColor: "#64748b",
+                alignSelf: "center",
+              }}
+              source={
+                user?.photoURL
+                  ? { uri: item.item.photoURL }
+                  : require("../../assets/profile-photo.png")
+              }
+            />
+          </View>
           <View style={{ marginLeft: 10 }}>
             <View
               style={{
