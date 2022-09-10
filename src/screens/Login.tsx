@@ -11,16 +11,27 @@ import {
 import { TextInput } from "react-native-gesture-handler";
 import { NavigationState } from "@react-navigation/native";
 import { loginUser } from "../firebase/helpers";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase/config";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../redux/store";
+import { setUser } from "../redux/slices/authSlice";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 interface Props {
   navigation: NavigationState;
 }
 
 const Login = (props: Props) => {
+  const dispatch = useDispatch<AppDispatch>();
   const { navigation } = props;
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const handleLogin = () => {
-    loginUser(username, password);
+
+  const handleLogin = async () => {
+    await signInWithEmailAndPassword(auth, username, password).then((res) => {
+      dispatch(setUser(res.user));
+      AsyncStorage.setItem("@user", JSON.stringify(res.user));
+    });
   };
 
   return (

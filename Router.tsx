@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "./src/redux/slices/authSlice";
 import Register from "./src/screens/Register";
 import Profile from "./src/screens/Profile";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Stack = createStackNavigator();
 
@@ -39,28 +40,32 @@ const AuthStack = () => {
 const StackNavigation = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        dispatch(setUser(user));
-      } else {
-      }
-    });
-  });
+    const retrieveUser = async () => {
+      try {
+        const value = await AsyncStorage.getItem("@user");
+        if (value !== null) {
+          dispatch(setUser(JSON.parse(value)));
+        }
+      } catch (error) {}
+    };
+    retrieveUser();
+  }, []);
 
   const user = useSelector((state: RootState) => state.auth.user);
-console.log(user);
 
   return (
     <NavigationContainer>
       <Stack.Navigator>
         {!user ? (
-          <Stack.Screen
-            options={{
-              headerShown: false,
-            }}
-            name="Login"
-            component={AuthStack}
-          />
+          <>
+            <Stack.Screen
+              options={{
+                headerShown: false,
+              }}
+              name="Login"
+              component={AuthStack}
+            />
+          </>
         ) : (
           <>
             <Stack.Screen
