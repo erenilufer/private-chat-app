@@ -86,7 +86,7 @@ const ChatCard = (props: Props) => {
                 alignSelf: "center",
               }}
               source={
-                user?.photoURL
+                item.item.photoURL
                   ? { uri: item.item.photoURL }
                   : require("../../assets/profile-photo.png")
               }

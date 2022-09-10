@@ -11,6 +11,7 @@ import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { getAuth, signOut, updateProfile } from "firebase/auth";
 import { setError, setUser } from "../redux/slices/authSlice";
 import { doc, updateDoc } from "firebase/firestore";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface Props {
   navigation: NavigationState;
@@ -39,11 +40,13 @@ const Profile = (props: Props) => {
     };
     getImage();
   }, [val]);
-  const logoutUser = () => {
+  const logoutUser = async () => {
     const auth = getAuth();
-    signOut(auth)
-      .then(() => {
+    await signOut(auth)
+      .then((res) => {
+        console.log(res);
         dispatch(setUser(null));
+        AsyncStorage.clear();
       })
       .catch((error) => {
         dispatch(setError(error));
@@ -51,7 +54,8 @@ const Profile = (props: Props) => {
   };
 
   const { navigation } = props;
-  console.log(user);
+console.log(user);
+
   const handleImagePicker = async () => {
     const result = await ImagePicker.launchImageLibraryAsync();
 
@@ -215,10 +219,10 @@ const Profile = (props: Props) => {
           }}
         >
           <Text style={{ fontSize: 12, color: "#64748b", marginBottom: 5 }}>
-            Last Login
+            Joined in
           </Text>
           <Text style={{ fontSize: 16, fontWeight: "bold", color: "#334155" }}>
-            {user?.metadata.lastSignInTime}
+            {user?.metadata.creationTime}
           </Text>
         </View>
       </View>

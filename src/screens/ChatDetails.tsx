@@ -26,7 +26,7 @@ type Props = {
 };
 
 const ChatDetails = (props: Props) => {
-  const [messages, setMessages] = useState<MessageState[] | null>(null);
+  const [messages, setMessages] = useState<MessageState[]>([]);
   const [text, setText] = useState<string>("");
 
   const user = useSelector((state: RootState) => state.auth.user);
@@ -96,8 +96,9 @@ const ChatDetails = (props: Props) => {
           return data[key];
         });
       var sorted = array?.sort((a, b) => a.time - b.time);
+      console.log(sorted);
 
-      setMessages(sorted);
+      setMessages(sorted ? sorted : []);
     });
   }, []);
 
@@ -113,10 +114,24 @@ const ChatDetails = (props: Props) => {
         ref={scrollViewRef}
         onContentSizeChange={() => scrollToEnd()}
       >
-        {messages ? (
+        {messages && messages.length > 0 ? (
           messages.map((item, index) => {
             return <Message item={item} key={index} />;
           })
+        ) : messages && messages.length == 0 ? (
+          <View
+            style={{
+              flex: 1,
+              alignSelf: "center",
+              justifyContent: "center",
+              padding: 15,
+              backgroundColor: "#134e4a",
+              marginTop: 5,
+              borderRadius: 10,
+            }}
+          >
+            <Text style={{ color: "#fff" }}>Start a Conversation</Text>
+          </View>
         ) : (
           <ActivityIndicator color={"white"} />
         )}

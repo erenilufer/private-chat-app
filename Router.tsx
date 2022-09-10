@@ -5,7 +5,7 @@ import ChatDetails from "./src/screens/ChatDetails";
 import "./src/firebase/config";
 import Login from "./src/screens/Login";
 import { useEffect } from "react";
-import { onAuthStateChanged } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { auth } from "./src/firebase/config";
 import { RootState } from "./src/redux/store";
 import { useDispatch, useSelector } from "react-redux";
@@ -38,8 +38,19 @@ const AuthStack = () => {
   );
 };
 const StackNavigation = () => {
+  const user = useSelector((state: RootState) => state.auth.user);
+
   const dispatch = useDispatch();
   useEffect(() => {
+    const auth = getAuth();
+    onAuthStateChanged(auth, (firebaseUser) => {
+      if (!user) {
+        dispatch(setUser(firebaseUser));
+        AsyncStorage.setItem("@user", JSON.stringify(firebaseUser));
+      } else {
+      }
+    });
+
     const retrieveUser = async () => {
       try {
         const value = await AsyncStorage.getItem("@user");
@@ -51,7 +62,7 @@ const StackNavigation = () => {
     retrieveUser();
   }, []);
 
-  const user = useSelector((state: RootState) => state.auth.user);
+  console.log(user);
 
   return (
     <NavigationContainer>

@@ -31,6 +31,7 @@ const Login = (props: Props) => {
     await signInWithEmailAndPassword(auth, username, password).then((res) => {
       dispatch(setUser(res.user));
       AsyncStorage.setItem("@user", JSON.stringify(res.user));
+      console.log(res);
     });
   };
 
