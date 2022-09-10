@@ -132,15 +132,14 @@ const Profile = (props: Props) => {
             }}
             onPress={() => handleImagePicker()}
           >
-             {loading && (
+            {loading && (
               <ActivityIndicator
-              style={{ position: "absolute", left: 15.5 }}
-              size="small"
+                style={{ position: "absolute", left: 15.5 }}
+                size="small"
                 color="#7e7e7e"
               />
             )}
             <Image
-
               style={{
                 width: 200,
                 height: 200,

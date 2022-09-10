@@ -37,11 +37,6 @@ const ChatCard = (props: Props) => {
     };
     getImage();
   }, [imageUrl]);
-
-  /*  useEffect(() => {
-    setImageUrl(user?.photoURL);
-  }, [user?.photoURL]); */
-
   console.log(user);
 
   return (
@@ -97,24 +92,15 @@ const ChatCard = (props: Props) => {
               }
             />
           </View>
-          <View style={{ marginLeft: 10 }}>
-            <View
+          <View style={{ marginLeft: 10, justifyContent: "center" }}>
+            <Text
               style={{
-                flexDirection: "row",
+                fontSize: 16,
+                fontWeight: "bold",
+                marginBottom: 5,
               }}
             >
-              <Text
-                style={{
-                  fontSize: 16,
-                  fontWeight: "bold",
-                  marginBottom: 5,
-                }}
-              >
-                {item.item.name}
-              </Text>
-            </View>
-            <Text style={{ fontWeight: "500", color: "#64748b" }}>
-              Start a Conversation
+              {item.item.name}
             </Text>
           </View>
         </View>
