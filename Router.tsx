@@ -48,6 +48,7 @@ const StackNavigation = () => {
   });
 
   const user = useSelector((state: RootState) => state.auth.user);
+console.log(user);
 
   return (
     <NavigationContainer>

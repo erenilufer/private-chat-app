@@ -1,17 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, Image, StyleSheet, ActivityIndicator } from "react-native";
-import {
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-} from "react-native-gesture-handler";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { Ionicons } from "@expo/vector-icons";
 import { NavigationState } from "@react-navigation/native";
 import * as ImagePicker from "expo-image-picker";
-import { app, auth, firestore } from "../firebase/config";
+import { auth, firestore } from "../firebase/config";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
-import { async } from "@firebase/util";
 import { getAuth, signOut, updateProfile } from "firebase/auth";
 import { setError, setUser } from "../redux/slices/authSlice";
 import { doc, updateDoc } from "firebase/firestore";
@@ -54,18 +50,13 @@ const Profile = (props: Props) => {
       });
   };
 
-  /*  useEffect(() => {
-    setImageUrl(user?.photoURL);
-  }, [user?.photoURL]); */
-
   const { navigation } = props;
   console.log(user);
   const handleImagePicker = async () => {
     const result = await ImagePicker.launchImageLibraryAsync();
-    //let result = await ImagePicker.launchImageLibraryAsync();
 
     if (!result.cancelled) {
-      uploadImage(result.uri, "test-image")
+      uploadImage(result.uri)
         .then(() => {
           console.log("success");
         })
@@ -74,7 +65,7 @@ const Profile = (props: Props) => {
         });
     }
   };
-  const uploadImage = async (uri, imageName) => {
+  const uploadImage = async (uri) => {
     const response = await fetch(uri);
     const blob = await response.blob();
 
