@@ -28,6 +28,7 @@ type Props = {
 const ChatDetails = (props: Props) => {
   const [messages, setMessages] = useState<MessageState[]>([]);
   const [text, setText] = useState<string>("");
+  const [loading, setLoading] = useState(true);
 
   const user = useSelector((state: RootState) => state.auth.user);
 
@@ -90,6 +91,7 @@ const ChatDetails = (props: Props) => {
 
     onValue(chatRef, (snapshot) => {
       const data = snapshot.val();
+      setLoading(false);
       var array: any[] =
         data &&
         Object.keys(data).map(function (key) {
@@ -114,11 +116,13 @@ const ChatDetails = (props: Props) => {
         ref={scrollViewRef}
         onContentSizeChange={() => scrollToEnd()}
       >
-        {messages && messages.length > 0 ? (
+        {loading ? (
+          <ActivityIndicator style={{ marginTop: 10 }} color={"white"} />
+        ) : messages && messages.length > 0 ? (
           messages.map((item, index) => {
             return <Message item={item} key={index} />;
           })
-        ) : messages && messages.length == 0 ? (
+        ) : (
           <View
             style={{
               flex: 1,
@@ -132,8 +136,6 @@ const ChatDetails = (props: Props) => {
           >
             <Text style={{ color: "#fff" }}>Start a Conversation</Text>
           </View>
-        ) : (
-          <ActivityIndicator color={"white"} />
         )}
       </ScrollView>
       <View

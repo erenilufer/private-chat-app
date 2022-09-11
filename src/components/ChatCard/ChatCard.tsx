@@ -105,7 +105,6 @@ const ChatCard = (props: Props) => {
           </View>
         </View>
         <View>
-          <Text style={{ fontWeight: "500", color: "#64748b" }}>16.53</Text>
           <MaterialIcons
             name="keyboard-arrow-right"
             size={32}
