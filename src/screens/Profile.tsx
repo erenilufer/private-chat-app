@@ -28,7 +28,7 @@ const Profile = (props: Props) => {
     const getImage = async () => {
       const storage = getStorage();
       const storageRef = ref(storage, user?.uid);
-      await getDownloadURL(storageRef).then((res) => {
+      await getDownloadURL(storageRef).then((res: string) => {
         setImageUrl(res);
         updateProfile(auth.currentUser, { photoURL: res });
       });
@@ -54,7 +54,7 @@ const Profile = (props: Props) => {
   };
 
   const { navigation } = props;
-console.log(user);
+  console.log(user);
 
   const handleImagePicker = async () => {
     const result = await ImagePicker.launchImageLibraryAsync();
@@ -244,7 +244,7 @@ const styles = StyleSheet.create({
   headerText: { color: "#0284c7" },
   logoutButton: {
     padding: 15,
-    backgroundColor: "#881337",
+    backgroundColor: "#dc2626",
     borderRadius: 10,
   },
 
